@@ -1,7 +1,6 @@
 import pygame
 import sys
 import random
-from collections import deque
 
 pygame.init()
 
@@ -10,18 +9,11 @@ TILE_SIZE = 40
 FPS = 60
 LEVELS = 3
 
-
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 BLUE = (0, 0, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
-
-
-pygame.mixer.init()
-move_sound = pygame.mixer.Sound("move.wav")
-win_sound = pygame.mixer.Sound("win.wav")
-
 
 start_ticks = pygame.time.get_ticks()
 
@@ -52,7 +44,6 @@ def generate_maze(width, height):
     maze[-2][-2] = 0
     return maze
 
-
 class Player:
     def __init__(self, x, y):
         self.x = x
@@ -62,18 +53,15 @@ class Player:
         if maze[self.y + dy][self.x + dx] == 0:
             self.x += dx
             self.y += dy
-            move_sound.play()
 
     def draw(self, screen):
         pygame.draw.rect(screen, BLUE, (self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE))
 
-
 player = Player(1, 1)
 
-# Set up the display
+
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Maze Game")
-
 
 clock = pygame.time.Clock()
 
@@ -111,7 +99,7 @@ while running and level <= LEVELS:
         pygame.draw.rect(screen, GREEN, ((len(maze[0]) - 2) * TILE_SIZE, (len(maze) - 2) * TILE_SIZE, TILE_SIZE, TILE_SIZE))
 
         if player.x == len(maze[0]) - 2 and player.y == len(maze) - 2:
-            win_sound.play()
+
             level += 1
             level_running = False
 
@@ -121,13 +109,12 @@ while running and level <= LEVELS:
 
         pygame.display.flip()
 
-
         clock.tick(FPS)
 
 
 screen.fill(BLACK)
 game_over_text = pygame.font.SysFont(None, 75).render('You Win!', True, GREEN)
-screen.blit(game_over_text, (SCREEN_WIDTH//2 - game_over_text.get_width()//2, SCREEN_HEIGHT//2 - game_over_text.get_height()//2))
+screen.blit(game_over_text, (SCREEN_WIDTH // 2 - game_over_text.get_width() // 2, SCREEN_HEIGHT // 2 - game_over_text.get_height() // 2))
 pygame.display.flip()
 pygame.time.wait(3000)
 
